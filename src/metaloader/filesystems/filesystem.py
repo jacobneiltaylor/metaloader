@@ -9,15 +9,15 @@ class Filesystem(Plugable):
 
     @abstractmethod
     def get_filename(self, *args) -> str:
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def _open(self, filename: str) -> BinaryIO:
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def exists(self, filename: str) -> bool:
-        pass
+        raise NotImplementedError
 
     def canonicalise(self, relative_filename: str):
         absolute_fn = self.get_filename(relative_filename)

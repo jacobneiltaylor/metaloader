@@ -6,13 +6,13 @@ from ..loader_context import LoaderContext
 class Directive(Plugable):
     @abstractmethod
     def handle_directive(self, context: LoaderContext, args):
-        pass
+        raise NotImplementedError
 
 
 class ListDirective(Directive):
     @abstractmethod
     def handle_item(self, context: LoaderContext, item):
-        pass
+        raise NotImplementedError
 
     def handle_directive(self, context: LoaderContext, args: list):
         for item in args:

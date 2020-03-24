@@ -31,22 +31,22 @@ class StanzaHandler(Plugable):
 
     @abstractmethod
     def is_valid(self, new_data) -> bool:
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def _initialise(self):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def _merge(self, stanza_data: dict, new_data):
-        pass
+        raise NotImplementedError
 
 
 class TypedStanzaHandler(StanzaHandler):
     @property
     @abstractmethod
     def _type(self) -> typing.Type:
-        pass
+        raise NotImplementedError
 
     def _initialise(self):
         return self._type()

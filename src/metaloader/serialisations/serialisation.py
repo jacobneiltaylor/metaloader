@@ -22,11 +22,11 @@ class Serialisation(Plugable):
 
     @abstractmethod
     def serialise(self, datastructure: dict, filestream: BinaryIO):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def deserialise(self, filestream: BinaryIO) -> dict:
-        pass
+        raise NotImplementedError
 
 
 class TextSerialisation(Serialisation):
@@ -40,11 +40,11 @@ class TextSerialisation(Serialisation):
 
     @abstractmethod
     def load(self, textstream: TextIO) -> dict:
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def dump(self, datastructure: dict, textstream: TextIO):
-        pass
+        raise NotImplementedError
 
     def serialise(self, datastructure: dict, filestream: BinaryIO) -> BinaryIO:
         buffer = BufferedWriter(filestream)
