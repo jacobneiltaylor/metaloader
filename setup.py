@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="metaloader",
-    version="0.1.0",
+    version="0.1.1",
     author="Jacob Neil Taylor",
     author_email="me@jacobtaylor.id.au",
     description="A configurable pipeline for loading configuration files",
@@ -19,5 +19,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
 )
