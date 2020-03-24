@@ -1,0 +1,4 @@
+$imports: [import_1, import_3]
+test_dict: {4: '4', 5: '5', 6: '6'}
+test_exclusive: {hello: world}
+test_list: [1, 2, 3]
