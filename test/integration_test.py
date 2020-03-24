@@ -10,6 +10,7 @@ ERR_MSG_EXCLUSIVE = "Cannot have more than one 'test_dict' stanza"
 NONEXIST_FILENAME = "dummy.nonexistent.file"
 TEST_DATA = tuple(range(1, 13))
 
+
 class IntegrationTest:
     def __init__(self, fs, serialisation, file_ext=None):
         self.fs = fs

@@ -75,9 +75,9 @@ class FlatLoader:
             ctx.filenames.append(filename)
             print(filename)
             print(ctx)
-            
+
             data = self._process_directives(ctx, self._load_file(fs, filename))
-            
+
             new_imports = copy(ctx.imports[filename])
             new_imports.reverse()
 

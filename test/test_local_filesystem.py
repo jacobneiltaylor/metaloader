@@ -1,5 +1,4 @@
 import mock
-import pytest
 from os.path import join, dirname, abspath
 from metaloader import Filesystem, Serialisation
 from integration_test import IntegrationTest
