@@ -18,3 +18,7 @@ SCHEMA_FAIL_EXCLUSIVE = {
         "exclusive": True
     }
 }
+
+SCHEMA_FAIL_VALIDATION = {
+    "test_list": "list"
+}

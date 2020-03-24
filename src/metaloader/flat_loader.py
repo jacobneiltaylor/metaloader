@@ -2,6 +2,7 @@ import re
 from copy import copy
 from collections import deque
 
+from .exceptions import StanzaValidationError
 from .stanzahandlers import StanzaHandler
 from .loader_context import LoaderContext
 from .serialisations import Serialisation
@@ -87,7 +88,12 @@ class FlatLoader:
 
             for key, stanzadata in data.items():
                 if key in self._stanza_handlers:
-                    self._stanza_handlers[key].include(ctx, stanzadata)
+                    handler = self._stanza_handlers[key]
+
+                    if handler.is_valid(stanzadata):
+                        handler.include(ctx, stanzadata)
+                    else:
+                        raise StanzaValidationError(key, filename)
 
             ctx.import_count += 1
         ctx.imports = dict(ctx.imports)

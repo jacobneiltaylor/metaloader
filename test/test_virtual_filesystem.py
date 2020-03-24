@@ -41,6 +41,10 @@ VFS_DATA = {
             "8": "8",
             "9": "9"
         }
+    },
+
+    "validation_fail": {
+        "test_list": {}
     }
 }
 

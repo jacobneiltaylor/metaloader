@@ -2,12 +2,16 @@ import pytest
 
 from metaloader import (
     FlatLoader,
-    ExclusiveStanzaClashError
+    ExclusiveStanzaClashError,
+    StanzaValidationError
 )
-from schema import SCHEMA_PASS, SCHEMA_FAIL_EXCLUSIVE
+
+from schema import SCHEMA_PASS, SCHEMA_FAIL_EXCLUSIVE, SCHEMA_FAIL_VALIDATION
 
 ERR_MSG_EXCLUSIVE = "Cannot have more than one 'test_dict' stanza"
+ERR_MSG_VALIDATION = "The data in the 'test_list' stanza"
 NONEXIST_FILENAME = "dummy.nonexistent.file"
+
 TEST_DATA = tuple(range(1, 13))
 
 
@@ -17,10 +21,10 @@ class IntegrationTest:
         self.serialisation = serialisation
         self.file_ext = file_ext
 
-    def _get_root_filename(self):
+    def _get_root_filename(self, root="root"):
         if self.file_ext:
-            return f"root.{self.file_ext}"
-        return "root"
+            return f"{root}.{self.file_ext}"
+        return root
 
     def _get_base_loader(self, schema):
         loader = FlatLoader(serialisation=self.serialisation)
@@ -41,14 +45,6 @@ class IntegrationTest:
             assert str(i) in context.data["test_dict"]
             assert context.data["test_dict"][str(i)] == str(i)
 
-    def _test_fail_exclusive(self):
-        loader = self._get_base_loader(SCHEMA_FAIL_EXCLUSIVE)
-
-        with pytest.raises(ExclusiveStanzaClashError) as excinfo:
-            loader.load(self._get_root_filename(), self.fs)
-
-        assert ERR_MSG_EXCLUSIVE in str(excinfo.value)
-
     def _test_fail_nonexist(self):
         loader = self._get_base_loader(SCHEMA_FAIL_EXCLUSIVE)
 
@@ -57,7 +53,24 @@ class IntegrationTest:
 
         assert NONEXIST_FILENAME in str(excinfo.value)
 
+    def _test_fail_exclusive(self):
+        loader = self._get_base_loader(SCHEMA_FAIL_EXCLUSIVE)
+
+        with pytest.raises(ExclusiveStanzaClashError) as excinfo:
+            loader.load(self._get_root_filename(), self.fs)
+
+        assert ERR_MSG_EXCLUSIVE in str(excinfo.value)
+
+    def _test_fail_validation(self):
+        loader = self._get_base_loader(SCHEMA_FAIL_VALIDATION)
+
+        with pytest.raises(StanzaValidationError) as excinfo:
+            loader.load(self._get_root_filename("validation_fail"), self.fs)
+
+        assert ERR_MSG_VALIDATION in str(excinfo.value)
+
     def run(self):
         self._test_pass()
-        self._test_fail_exclusive()
         self._test_fail_nonexist()
+        self._test_fail_exclusive()
+        self._test_fail_validation()

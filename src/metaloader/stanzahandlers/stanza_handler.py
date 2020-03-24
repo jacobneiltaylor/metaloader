@@ -52,6 +52,6 @@ class TypedStanzaHandler(StanzaHandler):
         return self._type()
 
     def is_valid(self, new_data):
-        if isinstance(self, new_data):
+        if isinstance(new_data, self._type):
             return True
         return False
