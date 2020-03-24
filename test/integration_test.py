@@ -6,8 +6,9 @@ from metaloader import (
 )
 from schema import SCHEMA_PASS, SCHEMA_FAIL_EXCLUSIVE
 
-MSG = "Cannot have more than one 'example_dict' stanza"
-
+ERR_MSG_EXCLUSIVE = "Cannot have more than one 'test_dict' stanza"
+NONEXIST_FILENAME = "dummy.nonexistent.file"
+TEST_DATA = tuple(range(1, 13))
 
 class IntegrationTest:
     def __init__(self, fs, serialisation, file_ext=None):
@@ -31,13 +32,31 @@ class IntegrationTest:
 
         assert context.import_count == 4
 
-    def _test_fail(self):
+        print(context)
+
+        assert tuple(context.data["test_list"]) == TEST_DATA
+
+        for i in TEST_DATA:
+            assert str(i) in context.data["test_dict"]
+            assert context.data["test_dict"][str(i)] == str(i)
+
+    def _test_fail_exclusive(self):
         loader = self._get_base_loader(SCHEMA_FAIL_EXCLUSIVE)
 
         with pytest.raises(ExclusiveStanzaClashError) as excinfo:
             loader.load(self._get_root_filename(), self.fs)
 
-        assert MSG in str(excinfo.value)
+        assert ERR_MSG_EXCLUSIVE in str(excinfo.value)
+
+    def _test_fail_nonexist(self):
+        loader = self._get_base_loader(SCHEMA_FAIL_EXCLUSIVE)
+
+        with pytest.raises(FileNotFoundError) as excinfo:
+            loader.load(NONEXIST_FILENAME, self.fs)
+
+        assert NONEXIST_FILENAME in str(excinfo.value)
 
     def run(self):
         self._test_pass()
+        self._test_fail_exclusive()
+        self._test_fail_nonexist()

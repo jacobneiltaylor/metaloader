@@ -15,5 +15,7 @@
     },
     "test_exclusive": {
         "hello": "world"
-    }
+    },
+    "$ignore": "dummy",
+    "ignore": "dummy"
 }

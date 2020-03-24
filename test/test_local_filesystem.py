@@ -1,23 +1,35 @@
 import mock
+import pytest
 from os.path import join, dirname, abspath
-from metaloader import Serialisation
+from metaloader import Filesystem, Serialisation
 from integration_test import IntegrationTest
 
 
+def get_absolute_root(root):
+    return join(dirname(abspath(__file__)), "data", root)
+
+
 def mock_cwd(root):
-    retval = join(dirname(abspath(__file__)), "data", root)
+    retval = get_absolute_root(root)
     return mock.patch("os.getcwd", mock.MagicMock(return_value=retval))
 
 
 def run_local_fs_test(serialisation_str):
     serialisation = None
-    if serialisation != "json":
+    fs = None
+
+    if serialisation_str != "json":
         serialisation = Serialisation.get(serialisation_str)
-    test = IntegrationTest(None, serialisation, serialisation_str)
+    else:
+        fs = Filesystem.get("local", get_absolute_root("json"))
+
+    test = IntegrationTest(fs, serialisation, serialisation_str)
     test.run()
 
+    if fs:
+        assert "root.json" in fs.history[0]
 
-@mock_cwd("json")
+
 def test_json_local_fs():
     run_local_fs_test("json")
 

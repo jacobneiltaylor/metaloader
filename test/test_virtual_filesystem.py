@@ -6,9 +6,9 @@ VFS_DATA = {
         "$imports": ["import_1", "import_3"],
         "test_list": [1, 2, 3],
         "test_dict": {
-            4: "4",
-            5: "5",
-            6: "6"
+            "4": "4",
+            "5": "5",
+            "6": "6"
         },
         "test_exclusive": {
             "hello": "world"
@@ -19,27 +19,27 @@ VFS_DATA = {
         "$imports": ["folder.import_2"],
         "test_list": [4, 5, 6],
         "test_dict": {
-            1: "1",
-            2: "2",
-            3: "3"
+            "1": "1",
+            "2": "2",
+            "3": "3"
         }
     },
 
     "folder.import_2": {
         "test_list": [7, 8, 9],
         "test_dict": {
-            10: "10",
-            11: "11",
-            12: "12"
+            "10": "10",
+            "11": "11",
+            "12": "12"
         }
     },
 
     "import_3": {
         "test_list": [10, 11, 12],
         "test_dict": {
-            7: "7",
-            8: "8",
-            9: "9"
+            "7": "7",
+            "8": "8",
+            "9": "9"
         }
     }
 }

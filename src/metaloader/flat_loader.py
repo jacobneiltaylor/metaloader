@@ -1,4 +1,6 @@
 import re
+from copy import copy
+from collections import deque
 
 from .stanzahandlers import StanzaHandler
 from .loader_context import LoaderContext
@@ -64,14 +66,24 @@ class FlatLoader:
 
         root_filename = fs.canonicalise(root_filename)
         ctx = LoaderContext()
-        ctx.filenames.append(root_filename)
 
-        for filename in ctx.filenames:
+        stack = deque()
+        stack.append(root_filename)
+
+        while stack:
+            filename = stack.pop()
+            ctx.filenames.append(filename)
+            print(filename)
+            print(ctx)
+            
             data = self._process_directives(ctx, self._load_file(fs, filename))
+            
+            new_imports = copy(ctx.imports[filename])
+            new_imports.reverse()
 
-            for import_stmt in ctx.imports[filename]:
-                decoded_import = self._serialisation.decode_import(import_stmt)
-                ctx.filenames.append(fs.get_filename(*decoded_import))
+            for new_import in new_imports:
+                decoded_import = self._serialisation.decode_import(new_import)
+                stack.append(fs.get_filename(*decoded_import))
 
             for key, stanzadata in data.items():
                 if key in self._stanza_handlers:
