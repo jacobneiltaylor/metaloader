@@ -9,8 +9,13 @@ class LocalFilesystem(Filesystem, register="local"):
             root = os.getcwd()
         self._root = root
 
-    def get_filename(self, *args):
-        return os.path.join(self._root, *args)
+    def get_dir_name(self, filename):
+        return os.path.dirname(filename)
+
+    def get_filename(self, path, base=None):
+        if not base:
+            base = self._root
+        return os.path.join(base, *path)
 
     def _open(self, filename: str):
         return open(filename, "rb")

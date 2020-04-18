@@ -1,6 +1,10 @@
+import re
 from io import BytesIO
 from .filesystem import Filesystem
 from ..serialisations import Serialisation
+
+
+PATH_RGX = re.compile(r"(?<=\/).+(?=\..+$)")
 
 
 class VirtualFilesystem(Filesystem, register="virtual"):
@@ -14,12 +18,16 @@ class VirtualFilesystem(Filesystem, register="virtual"):
         self._serialisation = Serialisation.get(serialisation)
 
         for key, value in data.items():
-            args = self._serialisation.decode_import(key)
-            filename = self.get_filename(*args)
+            path = self._serialisation.decode_import(key)
+            filename = self.get_filename(path)
             self._data[filename] = value
 
-    def get_filename(self, *args):
-        path = "/".join(args)
+    def get_dir_name(self, filename):
+        path = "/".join(filename.strip("/").split("/")[:-1])
+        return f"/{path}"
+
+    def get_filename(self, path, base=None):
+        path = "/".join(path)
         return f"/{path}"
 
     def _open(self, filename):

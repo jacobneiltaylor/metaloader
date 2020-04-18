@@ -8,7 +8,7 @@ class Filesystem(Plugable):
         self._history = []
 
     @abstractmethod
-    def get_filename(self, *args) -> str:
+    def get_filename(self, path, base=None) -> str:
         raise NotImplementedError
 
     @abstractmethod
@@ -19,8 +19,12 @@ class Filesystem(Plugable):
     def exists(self, filename: str) -> bool:
         raise NotImplementedError
 
+    @abstractmethod
+    def get_dir_name(self, filename) -> str:
+        raise NotImplementedError
+
     def canonicalise(self, relative_filename: str):
-        absolute_fn = self.get_filename(relative_filename)
+        absolute_fn = self.get_filename([relative_filename])
         if self.exists(absolute_fn):
             return absolute_fn
         raise FileNotFoundError(absolute_fn)

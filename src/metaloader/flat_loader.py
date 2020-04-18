@@ -73,6 +73,8 @@ class FlatLoader:
 
         while stack:
             filename = stack.pop()
+            directory = fs.get_dir_name(filename)
+
             ctx.filenames.append(filename)
 
             data = self._process_directives(ctx, self._load_file(fs, filename))
@@ -82,7 +84,7 @@ class FlatLoader:
 
             for new_import in new_imports:
                 decoded_import = self._serialisation.decode_import(new_import)
-                stack.append(fs.get_filename(*decoded_import))
+                stack.append(fs.get_filename(decoded_import, directory))
 
             for key, stanzadata in data.items():
                 if key in self._stanza_handlers:
