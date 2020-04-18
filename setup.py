@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="metaloader",
-    version="0.1.6",
+    version="0.1.7",
     author="Jacob Neil Taylor",
     author_email="me@jacobtaylor.id.au",
     description="A configurable pipeline for loading data files",

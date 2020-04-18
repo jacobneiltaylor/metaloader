@@ -74,8 +74,6 @@ class FlatLoader:
         while stack:
             filename = stack.pop()
             ctx.filenames.append(filename)
-            print(filename)
-            print(ctx)
 
             data = self._process_directives(ctx, self._load_file(fs, filename))
 
