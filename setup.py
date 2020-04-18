@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="metaloader",
-    version="0.1.5",
+    version="0.1.6",
     author="Jacob Neil Taylor",
     author_email="me@jacobtaylor.id.au",
-    description="A configurable pipeline for loading configuration files",
+    description="A configurable pipeline for loading data files",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/jacobneiltaylor/metaloader",

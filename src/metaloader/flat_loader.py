@@ -61,7 +61,7 @@ class FlatLoader:
 
         return data
 
-    def load(self, root_filename: str, fs: Filesystem = None) -> dict:
+    def load(self, root_filename: str, fs: Filesystem = None) -> LoaderContext:
         if not fs:
             fs = Filesystem.get("local")
 
