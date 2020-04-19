@@ -61,6 +61,10 @@ class FlatLoader:
 
         return data
 
+    def _cleanup_handlers(self):
+        for handler in self._stanza_handlers.values():
+            handler.cleanup()
+
     def load(self, root_filename: str, fs: Filesystem = None) -> LoaderContext:
         if not fs:
             fs = Filesystem.get("local")
@@ -97,4 +101,5 @@ class FlatLoader:
 
             ctx.import_count += 1
         ctx.imports = dict(ctx.imports)
+        self._cleanup_handlers()
         return ctx

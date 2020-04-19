@@ -41,6 +41,10 @@ class StanzaHandler(Plugable):
     def _merge(self, stanza_data: dict, new_data):
         raise NotImplementedError
 
+    def cleanup(self):
+        self.filenames = []
+        self._includes = 0
+
 
 class TypedStanzaHandler(StanzaHandler):
     @property
