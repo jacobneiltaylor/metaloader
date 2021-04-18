@@ -22,5 +22,5 @@ deploy:
   skip_existing: true
   edge: true
   on:
-    branch: main
+    branch: master
     python: "3.9"
