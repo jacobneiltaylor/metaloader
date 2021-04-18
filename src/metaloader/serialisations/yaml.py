@@ -2,6 +2,7 @@ from typing import TextIO
 from ruamel.yaml import YAML
 from .serialisation import TextSerialisation
 
+
 class YamlSerialisation(TextSerialisation, register="yaml"):
     EXTENSION = "yaml"
     _YAML = YAML(typ="unsafe", pure=True)
