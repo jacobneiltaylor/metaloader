@@ -1,6 +1,13 @@
+arch: arm64-graviton2
+virt: lxd
+os: linux
+dist: focal
+group: edge
+
 language: python
 
 python:
+  - "3.9"
   - "3.8"
   - "3.7"
 
@@ -14,3 +21,6 @@ deploy:
   distributions: "sdist bdist_wheel"
   skip_existing: true
   edge: true
+  on:
+    branch: main
+    python: "3.9"
